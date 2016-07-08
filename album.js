@@ -1,4 +1,3 @@
-// Example Album
 var albumPicasso = {
   title: 'The Colors',
   artist: 'Pablo Picasso',
@@ -68,10 +67,14 @@ var setCurrentAlbum = function(album) {
 var findParentByClassName = function(element, targetClass) {
   if (element) {
     var currentParent = element.parentElement;
-    while (currentParent.className != targetClass && currentParent.className !== null) {
-      currentParent = currentParent.parentElement;
+    if (currentParent.className == targetClass) {
+        currentParent = currentParent.parentElement;
     }
     return currentParent;
+  } else if (currentParent.className != targetClass) {
+    alert("No parent found.");
+  } else {
+    alert("No parent found with that class name");
   }
 };
 
@@ -145,7 +148,7 @@ window.onload = function() {
              if (songItemNumber !== currentlyPlayingSong) {
                 songItem.innerHTML = songItemNumber;
              }
-         });
+        });
          songRows[i].addEventListener('click', function(event) {
              clickHandler(event.target);
          });
