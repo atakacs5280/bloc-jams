@@ -1,4 +1,5 @@
 var setSong = function (songNumber){
+var setSong = function (songNumber){
   if (currentSoundFile) {
       currentSoundFile.stop();
   }
@@ -42,13 +43,15 @@ var createSongRow = function(songNumber, songName, songLength) {
 
         if (currentlyPlayingSongNumber !== null) {
             var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+
+            currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
             currentlyPlayingCell.html(currentlyPlayingSongNumber);
         }
 
         if (currentlyPlayingSongNumber !== songNumber) {
-            $(this).html(pauseButtonTemplate);
             setSong(songNumber);
             currentSoundFile.play();
+            $(this).html(pauseButtonTemplate);
             currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
             updatePlayerBarSong();
         } else if (currentlyPlayingSongNumber === songNumber) {
@@ -181,6 +184,22 @@ var previousSong = function() {
     
 };
 
+// Assignment 33 -- Toggle pause and play of song.
+var togglePlayFromPlayerBar = function() {
+ var $currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+
+ if (currentSoundFile.isPaused()) {
+   $currentlyPlayingCell.html(playButtonTemplate);
+   $(this).html(playerBarPlayButton);
+   currentSoundFile.play();
+ } else if (currentSoundFile) {
+   $currentlyPlayingCell.html(pauseButtonTemplate);
+   $(this).html(playerBarPauseButton);
+   currentSoundFile.pause();
+ }
+
+};
+
 var updatePlayerBarSong = function() {
 
     $('.currently-playing .song-name').text(currentSongFromAlbum.title);
@@ -201,13 +220,16 @@ var currentSongFromAlbum = null;
 var currentSoundFile = null;
 var currentVolume = 80;
 
+
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $toggleSong = $('.main-controls .play-pause');
 
 
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
   $previousButton.click(previousSong);
   $nextButton.click(nextSong);
+  $toggleSong.click(togglePlayFromPlayerBar);
 
 });
